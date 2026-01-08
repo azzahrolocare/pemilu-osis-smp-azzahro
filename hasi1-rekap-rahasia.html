@@ -22,6 +22,10 @@
             <p>Suara Paslon 02</p>
         </div>
         <div class="stat-item">
+            <h3 id="v3">0</h3>
+            <p>Suara Paslon 03</p>
+        </div>
+        <div class="stat-item">
             <h3 id="vtotal">0</h3>
             <p>Total Suara Masuk</p>
         </div>
@@ -29,27 +33,39 @@
 
     <div class="dashboard-card" style="margin-top:2rem">
         <h3>Visualisasi Persentase</h3>
+        
         <p>Paslon 01</p>
         <div class="progress-bar"><div id="bar1" class="progress-fill" style="width: 0%"></div></div>
         
         <br>
         <p>Paslon 02</p>
         <div class="progress-bar"><div id="bar2" class="progress-fill" style="width: 0%; background: #3b82f6"></div></div>
+
+        <br>
+        <p>Paslon 03</p>
+        <div class="progress-bar"><div id="bar3" class="progress-fill" style="width: 0%; background: #10b981"></div></div>
     </div>
 
     <script>
-        const dataSuara = JSON.parse(localStorage.getItem('rekap_suara')) || { "Paslon 01": 0, "Paslon 02": 0 };
-        const v1 = dataSuara["Paslon 01"];
-        const v2 = dataSuara["Paslon 02"];
-        const total = v1 + v2;
+        // Mengambil data, default sekarang memiliki 3 paslon
+        const dataSuara = JSON.parse(localStorage.getItem('rekap_suara')) || { "Paslon 01": 0, "Paslon 02": 0, "Paslon 03": 0 };
+        
+        const v1 = dataSuara["Paslon 01"] || 0;
+        const v2 = dataSuara["Paslon 02"] || 0;
+        const v3 = dataSuara["Paslon 03"] || 0;
+        const total = v1 + v2 + v3;
 
+        // Update angka di dashboard
         document.getElementById('v1').innerText = v1;
         document.getElementById('v2').innerText = v2;
+        document.getElementById('v3').innerText = v3;
         document.getElementById('vtotal').innerText = total;
 
+        // Update visualisasi bar
         if (total > 0) {
             document.getElementById('bar1').style.width = (v1 / total * 100) + "%";
             document.getElementById('bar2').style.width = (v2 / total * 100) + "%";
+            document.getElementById('bar3').style.width = (v3 / total * 100) + "%";
         }
     </script>
 </body>

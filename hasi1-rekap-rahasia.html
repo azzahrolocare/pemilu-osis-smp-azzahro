@@ -129,6 +129,7 @@
             margin-bottom: 10px;
         }
 
+        /* Progress Bar dengan transisi 4 detik agar sinkron */
         .progress-container { margin-bottom: 20px; }
         .progress-label {
             display: flex;
@@ -145,7 +146,7 @@
         .progress-fill {
             height: 100%;
             width: 0%;
-            transition: width 1.5s ease-in-out;
+            transition: width 4s ease-out; /* Sinkron dengan durasi angka */
             background-color: var(--primary-color);
         }
 
@@ -220,28 +221,29 @@
     </div>
 
     <script>
-        // Fungsi Animasi Angka
+        // Fungsi Animasi Angka (Durasi 4 Detik)
         function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
             if (start === end) {
-                document.getElementById(id).innerText = end;
+                obj.innerText = end;
                 return;
             }
-            const range = end - start;
-            let current = start;
-            const increment = end > start ? 1 : -1;
-            // Menentukan kecepatan tiap langkah (ms)
-            let stepTime = Math.abs(Math.floor(duration / range));
-            // Batasi kecepatan minimal agar tidak terlalu kencang (min 30ms)
-            stepTime = Math.max(stepTime, 30);
             
-            const obj = document.getElementById(id);
-            const timer = setInterval(function() {
-                current += increment;
-                obj.innerText = current;
-                if (current == end) {
-                    clearInterval(timer);
+            const range = end - start;
+            let startTime = null;
+
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = Math.min((timestamp - startTime) / duration, 1);
+                // Menggunakan Math.floor untuk angka bulat
+                obj.innerText = Math.floor(progress * range + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    obj.innerText = end; // Pastikan angka terakhir tepat
                 }
-            }, stepTime);
+            }
+            window.requestAnimationFrame(step);
         }
 
         function updateDashboard(isFirstLoad = false) {
@@ -253,13 +255,12 @@
             const total = v1 + v2 + v3;
 
             if (isFirstLoad) {
-                // Efek animasi dari 0 saat halaman dibuka
-                animateValue("v1", 0, v1, 2000);
-                animateValue("v2", 0, v2, 2000);
-                animateValue("v3", 0, v3, 2000);
-                animateValue("vtotal", 0, total, 2000);
+                // Animasi berhitung selama 4000ms (4 detik)
+                animateValue("v1", 0, v1, 4000);
+                animateValue("v2", 0, v2, 4000);
+                animateValue("v3", 0, v3, 4000);
+                animateValue("vtotal", 0, total, 4000);
             } else {
-                // Update instan tanpa animasi jika sedang refresh otomatis
                 document.getElementById('v1').innerText = v1;
                 document.getElementById('v2').innerText = v2;
                 document.getElementById('v3').innerText = v3;
@@ -286,12 +287,10 @@
             }
         }
 
-        // Jalankan saat pertama kali dibuka
         window.onload = function() {
             updateDashboard(true);
         };
 
-        // Cek data baru setiap 5 detik (tanpa mengulang animasi dari nol)
         setInterval(function() {
             updateDashboard(false);
         }, 5000);

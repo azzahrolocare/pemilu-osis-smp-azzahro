@@ -24,7 +24,6 @@
             padding: 20px;
         }
 
-        /* Header Styling */
         .dashboard-card {
             background: var(--card-bg);
             border-radius: 16px;
@@ -82,7 +81,6 @@
             margin-top: 8px;
         }
 
-        /* Grid Statistik */
         .stat-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -103,7 +101,6 @@
 
         .stat-item:hover { transform: translateY(-5px); }
 
-        /* Foto Paslon */
         .paslon-photo {
             width: 130px;
             height: 130px;
@@ -132,7 +129,6 @@
             margin-bottom: 10px;
         }
 
-        /* Progress Bar */
         .progress-container { margin-bottom: 20px; }
         .progress-label {
             display: flex;
@@ -149,11 +145,10 @@
         .progress-fill {
             height: 100%;
             width: 0%;
-            transition: width 1s ease-in-out;
+            transition: width 1.5s ease-in-out;
             background-color: var(--primary-color);
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .header-container { flex-direction: column; text-align: center; }
             .logo-left { position: static; margin-bottom: 15px; }
@@ -170,7 +165,7 @@
                 <h1>PEMILIHAN KETUA & WAKIL KETUA OSIS</h1>
                 <h2>SMP ISLAM AZ-ZAHRO</h2>
                 <div class="academic-year">Tahun Pelajaran 2025/2026</div>
-                <p style="margin:0;">Data rekapitulasi suara berdasarkan DPT Siswa SMP yang sah.</p>
+                <p style="margin:10px 0 0 0; color: var(--text-muted); font-size: 0.9rem;">Data rekapitulasi suara berdasarkan DPT Siswa yang sah.</p>
             </div>
         </div>
     </div>
@@ -199,7 +194,8 @@
 
         <div class="stat-item">
             <div style="height: 130px; display: flex; align-items: center; justify-content: center; font-size: 4rem;">📊</div>
-            <div style="height: 38px;"></div> <div class="vote-count" id="vtotal">0</div>
+            <div style="height: 38px;"></div> 
+            <div class="vote-count" id="vtotal">0</div>
             <p>Total Suara Masuk</p>
         </div>
     </div>
@@ -224,7 +220,31 @@
     </div>
 
     <script>
-        function updateDashboard() {
+        // Fungsi Animasi Angka
+        function animateValue(id, start, end, duration) {
+            if (start === end) {
+                document.getElementById(id).innerText = end;
+                return;
+            }
+            const range = end - start;
+            let current = start;
+            const increment = end > start ? 1 : -1;
+            // Menentukan kecepatan tiap langkah (ms)
+            let stepTime = Math.abs(Math.floor(duration / range));
+            // Batasi kecepatan minimal agar tidak terlalu kencang (min 30ms)
+            stepTime = Math.max(stepTime, 30);
+            
+            const obj = document.getElementById(id);
+            const timer = setInterval(function() {
+                current += increment;
+                obj.innerText = current;
+                if (current == end) {
+                    clearInterval(timer);
+                }
+            }, stepTime);
+        }
+
+        function updateDashboard(isFirstLoad = false) {
             const dataSuara = JSON.parse(localStorage.getItem('rekap_suara')) || { "Paslon 01": 0, "Paslon 02": 0, "Paslon 03": 0 };
             
             const v1 = dataSuara["Paslon 01"] || 0;
@@ -232,23 +252,29 @@
             const v3 = dataSuara["Paslon 03"] || 0;
             const total = v1 + v2 + v3;
 
-            // Update Angka
-            document.getElementById('v1').innerText = v1;
-            document.getElementById('v2').innerText = v2;
-            document.getElementById('v3').innerText = v3;
-            document.getElementById('vtotal').innerText = total;
+            if (isFirstLoad) {
+                // Efek animasi dari 0 saat halaman dibuka
+                animateValue("v1", 0, v1, 2000);
+                animateValue("v2", 0, v2, 2000);
+                animateValue("v3", 0, v3, 2000);
+                animateValue("vtotal", 0, total, 2000);
+            } else {
+                // Update instan tanpa animasi jika sedang refresh otomatis
+                document.getElementById('v1').innerText = v1;
+                document.getElementById('v2').innerText = v2;
+                document.getElementById('v3').innerText = v3;
+                document.getElementById('vtotal').innerText = total;
+            }
 
             if (total > 0) {
                 const p1 = ((v1 / total) * 100).toFixed(1) + "%";
                 const p2 = ((v2 / total) * 100).toFixed(1) + "%";
                 const p3 = ((v3 / total) * 100).toFixed(1) + "%";
 
-                // Update Persentase di Card
                 document.getElementById('p1').innerText = p1;
                 document.getElementById('p2').innerText = p2;
                 document.getElementById('p3').innerText = p3;
 
-                // Update Progress Bar & Label
                 document.getElementById('bar1').style.width = p1;
                 document.getElementById('lb1').innerText = p1;
                 
@@ -260,11 +286,15 @@
             }
         }
 
-        // Jalankan fungsi saat dimuat
-        updateDashboard();
+        // Jalankan saat pertama kali dibuka
+        window.onload = function() {
+            updateDashboard(true);
+        };
 
-        // Refresh otomatis setiap 5 detik untuk memantau data baru
-        setInterval(updateDashboard, 5000);
+        // Cek data baru setiap 5 detik (tanpa mengulang animasi dari nol)
+        setInterval(function() {
+            updateDashboard(false);
+        }, 5000);
     </script>
 </body>
 </html>

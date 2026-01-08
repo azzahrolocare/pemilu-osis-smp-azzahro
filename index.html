@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Voting PEMILIHAN OSIS SMP ISLAM AZ-ZAHRO</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --text: #1e293b;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; }
+        .container { max-width: 900px; margin: 2rem auto; padding: 1.5rem; }
+        .card-box { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        
+        /* Input Styles */
+        input[readonly] { background-color: #f1f5f9; color: #64748b; cursor: not-allowed; }
+        .input-group { margin-bottom: 1.2rem; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 600; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
+        
+        /* Button Styles */
+        .btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: 0.3s; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-vote { background: #059669; margin-top: 10px; }
+        .btn-vote:hover { background: #047857; }
+
+        /* Paslon Grid */
+        .grid-paslon { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 2rem; }
+        .card-paslon { border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; width: 280px; text-align: center; background: white; transition: 0.3s; }
+        .card-paslon:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .card-paslon img { width: 100%; height: 250px; object-fit: cover; }
+        .card-content { padding: 1.5rem; }
+
+        /* Helpers */
+        .hidden { display: none; }
+        .error { color: #dc2626; font-size: 0.9rem; margin-top: 5px; font-weight: bold; }
+        #timer { font-weight: bold; color: var(--primary); font-size: 1.5rem; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="login-page" class="card-box">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h2 style="margin:0;">E-Voting OSIS</h2>
+            <h2 style="margin:0; color: var(--primary);">SMP ISLAM AZ-ZAHRO</h2>
+            <p style="color: #64748b;">Masa Bakti 2026/2027</p>
+        </div>
+        
+        <div class="input-group">
+            <label>NISN Siswa</label>
+            <input type="text" id="nisn-field" placeholder="Masukkan 10 digit NISN" oninput="cekNISN()" maxlength="10">
+            <p id="error-msg" class="error hidden"></p>
+        </div>
+
+        <div class="input-group">
+            <label>Nama Siswa</label>
+            <input type="text" id="auto-nama" placeholder=" " readonly>
+        </div>
+
+        <div class="input-group">
+            <label>Kelas</label>
+            <input type="text" id="auto-kelas" placeholder=" " readonly>
+        </div>
+        
+        <button class="btn" id="btn-masuk" onclick="prosesLogin()" disabled>Masuk ke Bilik Suara</button>
+    </div>
+
+    <div id="vote-page" class="hidden">
+        <div class="card-box" style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h3 id="display-nama" style="margin:0">Nama Siswa</h3>
+                <p id="display-kelas" style="color: #64748b; margin:0">Kelas</p>
+            </div>
+            <div style="text-align: right; color: var(--primary); font-weight: bold;">SURAT SUARA DIGITAL</div>
+        </div>
+
+        <h2 style="text-align: center;">Tentukan Pilihan Anda</h2>
+        
+        <div class="grid-paslon">
+            <div class="card-paslon">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRL_sLRPQsK5dNCqyhl-P3ulXn-GBMrpRtaTA&s" alt="Paslon 01">
+                <div class="card-content">
+                    <small>NOMOR URUT</small>
+                    <h1 style="margin:0">01</h1>
+                    <h3 style="margin: 10px 0;">Aris & Linda</h3>
+                    <button class="btn btn-vote" onclick="konfirmasiPilihan('Paslon 01')">Pilih Paslon 01</button>
+                </div>
+            </div>
+
+            <div class="card-paslon">
+                <img src="https://i.pinimg.com/736x/29/3d/db/293ddb60b0670d087d2bc91eaec996ce.jpg" alt="Paslon 02">
+                <div class="card-content">
+                    <small>NOMOR URUT</small>
+                    <h1 style="margin:0">02</h1>
+                    <h3 style="margin: 10px 0;">Dedi & Sinta</h3>
+                    <button class="btn btn-vote" onclick="konfirmasiPilihan('Paslon 02')">Pilih Paslon 02</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="thanks-page" class="hidden" style="text-align: center;">
+        <div class="card-box">
+            <h1 style="font-size: 4rem; margin: 0;">✅</h1>
+            <h2 style="color: #059669;">Suara Anda Berhasil Dikirim!</h2>
+            <p style="font-size: 1.2rem; line-height: 1.6;">
+                Terima kasih <strong id="msg-nama">NAMA</strong> (<strong id="msg-kelas">KELAS</strong>) <br>
+                telah menggunakan hak pilih Anda dalam Pemilihan OSIS 2026/2027.
+            </p>
+            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 2rem 0;">
+            <p style="color: #64748b;">Sistem akan otomatis kembali ke Login dalam:</p>
+            <div id="timer">10</div>
+            <p style="color: #94a3b8; font-size: 0.8rem; margin-top: 1rem;">KODE: SUKSES_VOTE_2026</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // DATA MASTER SISWA
+    const daftarSiswa = [
+    { nama: "ADINDA PUTRI WULANDARI", nisn: "0134037607", kelas: "Kelas 7" },
+    { nama: "ADITYA EKA SAPUTRA", nisn: "0109531186", kelas: "Kelas 9" },
+    { nama: "Agung Saputra", nisn: "0124569275", kelas: "Kelas 8" },
+    { nama: "Ahmad Habibi Maulana", nisn: "0082114134", kelas: "Kelas 9" },
+    { nama: "AHMAD MUZAMMIL", nisn: "0114076427", kelas: "Kelas 8" },
+    { nama: "AHMAD UBADAH", nisn: "0116219532", kelas: "Kelas 9" },
+    { nama: "ALDI MAKSUDI", nisn: "0135729942", kelas: "Kelas 7" },
+    { nama: "ALYA NASYITA SABHIRAH", nisn: "0116487325", kelas: "Kelas 7" },
+    { nama: "ANDHIKA BAGUS RAMADHAN", nisn: "3113634149", kelas: "Kelas 9" },
+    { nama: "ARIN HISFUALAH", nisn: "0127682320", kelas: "Kelas 9" },
+    { nama: "AULIA NUR IZZATUNNISA", nisn: "0137321076", kelas: "Kelas 7" },
+    { nama: "AULIA TRI WULANDARI", nisn: "0118448341", kelas: "Kelas 8" },
+    { nama: "Avita Hemiyatin", nisn: "0112483701", kelas: "Kelas 9" },
+    { nama: "DANDI", nisn: "0124159506", kelas: "Kelas 9" },
+    { nama: "DEDY SUPRIADI", nisn: "3132272667", kelas: "Kelas 7" },
+    { nama: "Devita Masuro", nisn: "0104776302", kelas: "Kelas 9" },
+    { nama: "DIMAS ARIF MAULANA", nisn: "0107204403", kelas: "Kelas 9" },
+    { nama: "EILIYAH MUNIFAH", nisn: "0139364783", kelas: "Kelas 7" },
+    { nama: "FANIA RAHMAWATI", nisn: "0102655649", kelas: "Kelas 7" },
+    { nama: "FARAH NATIFA AZZAHRO WAKIK", nisn: "0128105446", kelas: "Kelas 7" },
+    { nama: "Ferdi maulana", nisn: "0101209945", kelas: "Kelas 9" },
+    { nama: "FITA FATIMATUZ ZAHRO", nisn: "0108458268", kelas: "Kelas 8" },
+    { nama: "HAFIZHAH NAYLA EFFENDI", nisn: "3125128511", kelas: "Kelas 7" },
+    { nama: "INTAN ASRI BARIKOH", nisn: "0126073827", kelas: "Kelas 8" },
+    { nama: "Kefin", nisn: "0126913609", kelas: "Kelas 8" },
+    { nama: "KHODIJAH ADZKIA MADZKUR", nisn: "0136216764", kelas: "Kelas 7" },
+    { nama: "KHOIRUL ANWAR", nisn: "0101792722", kelas: "Kelas 9" },
+    { nama: "Kholidatuz Zahra", nisn: "0126899873", kelas: "Kelas 8" },
+    { nama: "Kiki Stifani", nisn: "0108990601", kelas: "Kelas 9" },
+    { nama: "LAILA NUR FILA SYAFA", nisn: "0114950342", kelas: "Kelas 9" },
+    { nama: "LULUK", nisn: "3126871400", kelas: "Kelas 8" },
+    { nama: "MELVINA LUTFIYAH", nisn: "0122991772", kelas: "Kelas 7" },
+    { nama: "MIKE OKTA VIONA PUTRI", nisn: "0115216409", kelas: "Kelas 8" },
+    { nama: "MOCH. RIKY ARDIANSYAH", nisn: "0117545656", kelas: "Kelas 8" },
+    { nama: "Mohammad Fatthunur Faizin", nisn: "0117508351", kelas: "Kelas 9" },
+    { nama: "Mohammad Ferianto", nisn: "0102633447", kelas: "Kelas 9" },
+    { nama: "Mohammad NOR HALIL", nisn: "0113455193", kelas: "Kelas 8" },
+    { nama: "Muhammad Ali Ramdani", nisn: "0114646962", kelas: "Kelas 9" },
+    { nama: "Muhammad Kholili Ihsan", nisn: "0056776059", kelas: "Kelas 8" },
+    { nama: "Muhammad LUTFI JAELANI", nisn: "0121397040", kelas: "Kelas 7" },
+    { nama: "Muhammad Rifki Saputra", nisn: "0126709367", kelas: "Kelas 8" },
+    { nama: "Muhammad Rizal", nisn: "0111850063", kelas: "Kelas 7" },
+    { nama: "MUHAMMAD RIZAL", nisn: "0121477614", kelas: "Kelas 8" },
+    { nama: "MUHAMMAD ROIHAN", nisn: "0094134364", kelas: "Kelas 9" },
+    { nama: "Muhammad Royhan Zainurullah", nisn: "0123939051", kelas: "Kelas 8" },
+    { nama: "MUHAMMAD ZAENUL RIFA'I", nisn: "0121625332", kelas: "Kelas 7" },
+    { nama: "MUKHLAS", nisn: "0081874393", kelas: "Kelas 9" },
+    { nama: "MUKHLIS", nisn: "0082165609", kelas: "Kelas 9" },
+    { nama: "NABILA RIZKI WARDANI", nisn: "0124965710", kelas: "Kelas 7" },
+    { nama: "NASILA", nisn: "0124210394", kelas: "Kelas 7" },
+    { nama: "Nasivatul Balgis Bakhira", nisn: "0115851571", kelas: "Kelas 9" },
+    { nama: "NIA AFKARINA", nisn: "3115213725", kelas: "Kelas 7" },
+    { nama: "NUR FADILAH ANGGRAINI", nisn: "0103189776", kelas: "Kelas 9" },
+    { nama: "NURUL HIDAYATI", nisn: "3135207384", kelas: "Kelas 7" },
+    { nama: "RATNA ROBIYATUL HASANAH", nisn: "0125462713", kelas: "Kelas 8" },
+    { nama: "RIFZIKA DJAMILATUS SUBHAN", nisn: "0102533380", kelas: "Kelas 9" },
+    { nama: "RINA AIRIN", nisn: "0125822955", kelas: "Kelas 7" },
+    { nama: "RINA KHOMARIYAH", nisn: "3114305251", kelas: "Kelas 9" },
+    { nama: "RINI SAMSIYAH", nisn: "3118153763", kelas: "Kelas 9" },
+    { nama: "RISKA MAULIDIA", nisn: "3119713408", kelas: "Kelas 9" },
+    { nama: "SHERLY KAYLA PUTRI", nisn: "0125570800", kelas: "Kelas 7" },
+    { nama: "SILVI IZZATUL MAULIDAH", nisn: "3115006209", kelas: "Kelas 9" },
+    { nama: "SILVINA RAHMATILLAH", nisn: "0126032760", kelas: "Kelas 8" },
+    { nama: "SITI AISAH", nisn: "0125815966", kelas: "Kelas 7" },
+    { nama: "SITI ANISAH", nisn: "0122772869", kelas: "Kelas 7" },
+    { nama: "Siti Armilatur Rohmah", nisn: "0129024470", kelas: "Kelas 8" },
+    { nama: "SITI FATIJAH NURAINI", nisn: "0126236735", kelas: "Kelas 7" },
+    { nama: "SITI NUR JANNAH SABILA PUTRI", nisn: "0125858066", kelas: "Kelas 7" },
+    { nama: "Siti Umi Salsabila", nisn: "0108426165", kelas: "Kelas 8" },
+    { nama: "SITTI LAINI", nisn: "0104373040", kelas: "Kelas 9" },
+    { nama: "Sofiya Latifah", nisn: "0108117463", kelas: "Kelas 9" },
+    { nama: "TRY ANGGUN NUR FADILAH", nisn: "0107080615", kelas: "Kelas 9" },
+    { nama: "Ummi Sofia Sa'ada", nisn: "0116540904", kelas: "Kelas 9" },
+    { nama: "VIAN EFENDI", nisn: "0123878351", kelas: "Kelas 7" },
+    { nama: "Wita", nisn: "0104779685", kelas: "Kelas 9" },
+    { nama: "WULAN DARI", nisn: "3139540746", kelas: "Kelas 8" },
+    { nama: "WULAN TRIAMITA RAHARJO", nisn: "0113090039", kelas: "Kelas 8" },
+    { nama: "Yusi Yuliana Dewi", nisn: "0102912322", kelas: "Kelas 9" },
+    { nama: "Zahratul Maulidya", nisn: "0129963430", kelas: "Kelas 8" }
+];
+    let userAktif = null;
+
+    // 1. CEK NISN SAAT MENGETIK
+    function cekNISN() {
+        const nisnInput = document.getElementById('nisn-field').value;
+        const autoNama = document.getElementById('auto-nama');
+        const autoKelas = document.getElementById('auto-kelas');
+        const btnMasuk = document.getElementById('btn-masuk');
+        const errorMsg = document.getElementById('error-msg');
+        
+        const siswa = daftarSiswa.find(s => s.nisn === nisnInput);
+
+        if (siswa) {
+            autoNama.value = siswa.nama;
+            autoKelas.value = siswa.kelas;
+            btnMasuk.disabled = false;
+            errorMsg.classList.add('hidden');
+        } else {
+            autoNama.value = "";
+            autoKelas.value = "";
+            btnMasuk.disabled = true;
+            if(nisnInput.length === 5) {
+                errorMsg.innerText = "NISN tidak terdaftar dalam DPT!";
+                errorMsg.classList.remove('hidden');
+            } else {
+                errorMsg.classList.add('hidden');
+            }
+        }
+    }
+
+    // 2. PROSES LOGIN & CEK DOUBLE VOTE
+    function prosesLogin() {
+        const nisnInput = document.getElementById('nisn-field').value;
+        const sudahMemilih = localStorage.getItem('voted_' + nisnInput);
+
+        if (sudahMemilih) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Akses Ditolak',
+                text: 'Maaf, NISN ini sudah digunakan untuk memberikan suara!',
+                confirmButtonColor: '#2563eb'
+            });
+        } else {
+            userAktif = daftarSiswa.find(s => s.nisn === nisnInput);
+            document.getElementById('display-nama').innerText = userAktif.nama;
+            document.getElementById('display-kelas').innerText = userAktif.kelas;
+            
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('vote-page').classList.remove('hidden');
+        }
+    }
+
+    // 3. KONFIRMASI DENGAN SWEETALERT
+    function konfirmasiPilihan(pilihan) {
+        Swal.fire({
+            title: 'Konfirmasi Pilihan',
+            text: `Anda akan memilih ${pilihan}. Pilihan tidak dapat diubah kembali!`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#059669',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Saya Yakin!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                simpanSuara(pilihan);
+            }
+        })
+    }
+
+    // 4. SIMPAN SUARA & COUNTDOWN
+    function simpanSuara(pilihan) {
+        // Simpan tanda sudah memilih
+        localStorage.setItem('voted_' + userAktif.nisn, "true");
+        
+        // Simpan rekap suara
+        let rekap = JSON.parse(localStorage.getItem('rekap_suara')) || { "Paslon 01": 0, "Paslon 02": 0 };
+        rekap[pilihan] += 1;
+        localStorage.setItem('rekap_suara', JSON.stringify(rekap));
+
+        // Isi data di halaman terima kasih
+        document.getElementById('msg-nama').innerText = userAktif.nama;
+        document.getElementById('msg-kelas').innerText = userAktif.kelas;
+
+        // Pindah Halaman
+        document.getElementById('vote-page').classList.add('hidden');
+        document.getElementById('thanks-page').classList.remove('hidden');
+
+        // Jalankan Timer
+        let detik = 10;
+        const timerElement = document.getElementById('timer');
+        const interval = setInterval(() => {
+            detik--;
+            timerElement.innerText = detik;
+            if (detik <= 0) {
+                clearInterval(interval);
+                location.reload();
+            }
+        }, 1000);
+    }
+</script>
+
+</body>
+</html>

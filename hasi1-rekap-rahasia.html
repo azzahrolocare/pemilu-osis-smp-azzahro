@@ -5,52 +5,106 @@
     <title>Panel Rekapitulasi Suara</title>
     <link rel="stylesheet" href="admin.css">
     <style>
-        /* Tambahan CSS untuk mengatur tampilan foto */
-        .paslon-photo {
-            width: 100%;
-            max-width: 150px; /* Ukuran maksimal foto */
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        /* Header & Logo */
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 20px;
         }
+
+        .logo-left {
+            position: absolute;
+            left: 20px;
+            height: 70px;
+            width: auto;
+        }
+
+        .title-text {
+            text-align: center;
+        }
+
+        /* Foto Paslon */
+        .paslon-photo {
+            width: 140px; 
+            height: 140px;
+            object-fit: cover; /* Agar foto tidak gepeng */
+            border-radius: 50%; /* Membuat foto melingkar (opsional, hapus jika ingin kotak) */
+            border: 4px solid #f0f0f0;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
         .stat-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 15px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+        }
+
+        /* Badge Persentase di bawah angka suara */
+        .percent-badge {
+            background: #eee;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        /* Styling Progress Bar */
+        .progress-container {
+            margin-bottom: 15px;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
     <div class="dashboard-card">
-        <h1>Dashboard Real Count Panitia</h1>
-        <p>Data diambil secara akurat berdasarkan NISN yang terverifikasi.</p>
+        <div class="header-container">
+            <img src="logo-smp-azzahro.png" alt="Logo" class="logo-left">
+            <div class="title-text">
+                <h1>Dashboard Real Count Panitia <br> SMP Islam Az-Zahro</h1>
+                <p>Data terverifikasi secara sistem Real-Time</p>
+            </div>
+        </div>
     </div>
 
     <div class="stat-grid">
         <div class="stat-item">
-            <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon1-osis-smp-2026-2027.jpg" alt="Foto Paslon 1" class="paslon-photo">
+            <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon1-osis-smp-2026-2027.jpg" alt="Paslon 1" class="paslon-photo">
             <h3 id="v1">0</h3>
+            <div id="p1" class="percent-badge">0%</div>
             <p>Suara Paslon 01</p>
         </div>
 
         <div class="stat-item">
-            <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon2-osis-smp-2026-2027.jpg" alt="Foto Paslon 2" class="paslon-photo">
+            <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon2-osis-smp-2026-2027.jpg" alt="Paslon 2" class="paslon-photo">
             <h3 id="v2">0</h3>
+            <div id="p2" class="percent-badge">0%</div>
             <p>Suara Paslon 02</p>
         </div>
 
         <div class="stat-item">
-            <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon3-osis-smp-2026-2027.jpg" alt="Foto Paslon 3" class="paslon-photo">
+            <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon3-osis-smp-2026-2027.jpg" alt="Paslon 3" class="paslon-photo">
             <h3 id="v3">0</h3>
+            <div id="p3" class="percent-badge">0%</div>
             <p>Suara Paslon 03</p>
         </div>
 
         <div class="stat-item">
-            <div style="height: 150px; display: flex; align-items: center; justify-content: center;">
-                <h2 style="font-size: 3rem;">📊</h2>
+            <div style="height: 140px; display: flex; align-items: center; justify-content: center;">
+                <h2 style="font-size: 4rem;">📊</h2>
             </div>
             <h3 id="vtotal">0</h3>
             <p>Total Suara Masuk</p>
@@ -60,19 +114,24 @@
     <div class="dashboard-card" style="margin-top:2rem">
         <h3>Visualisasi Persentase</h3>
         
-        <p>Paslon 01</p>
-        <div class="progress-bar"><div id="bar1" class="progress-fill" style="width: 0%"></div></div>
+        <div class="progress-container">
+            <div class="progress-label"><span>Paslon 01</span> <span id="label_bar1">0%</span></div>
+            <div class="progress-bar"><div id="bar1" class="progress-fill" style="width: 0%"></div></div>
+        </div>
         
-        <br>
-        <p>Paslon 02</p>
-        <div class="progress-bar"><div id="bar2" class="progress-fill" style="width: 0%; background: #3b82f6"></div></div>
+        <div class="progress-container">
+            <div class="progress-label"><span>Paslon 02</span> <span id="label_bar2">0%</span></div>
+            <div class="progress-bar"><div id="bar2" class="progress-fill" style="width: 0%; background: #3b82f6"></div></div>
+        </div>
 
-        <br>
-        <p>Paslon 03</p>
-        <div class="progress-bar"><div id="bar3" class="progress-fill" style="width: 0%; background: #10b981"></div></div>
+        <div class="progress-container">
+            <div class="progress-label"><span>Paslon 03</span> <span id="label_bar3">0%</span></div>
+            <div class="progress-bar"><div id="bar3" class="progress-fill" style="width: 0%; background: #10b981"></div></div>
+        </div>
     </div>
 
     <script>
+        // Mengambil data dari localStorage
         const dataSuara = JSON.parse(localStorage.getItem('rekap_suara')) || { "Paslon 01": 0, "Paslon 02": 0, "Paslon 03": 0 };
         
         const v1 = dataSuara["Paslon 01"] || 0;
@@ -80,15 +139,32 @@
         const v3 = dataSuara["Paslon 03"] || 0;
         const total = v1 + v2 + v3;
 
+        // Update angka suara
         document.getElementById('v1').innerText = v1;
         document.getElementById('v2').innerText = v2;
         document.getElementById('v3').innerText = v3;
         document.getElementById('vtotal').innerText = total;
 
+        // Hitung dan Update Persentase
         if (total > 0) {
-            document.getElementById('bar1').style.width = (v1 / total * 100) + "%";
-            document.getElementById('bar2').style.width = (v2 / total * 100) + "%";
-            document.getElementById('bar3').style.width = (v3 / total * 100) + "%";
+            const p1 = ((v1 / total) * 100).toFixed(1);
+            const p2 = ((v2 / total) * 100).toFixed(1);
+            const p3 = ((v3 / total) * 100).toFixed(1);
+
+            // Update Badge Persentase
+            document.getElementById('p1').innerText = p1 + "%";
+            document.getElementById('p2').innerText = p2 + "%";
+            document.getElementById('p3').innerText = p3 + "%";
+
+            // Update Lebar Bar
+            document.getElementById('bar1').style.width = p1 + "%";
+            document.getElementById('bar2').style.width = p2 + "%";
+            document.getElementById('bar3').style.width = p3 + "%";
+
+            // Update Label Teks Bar
+            document.getElementById('label_bar1').innerText = p1 + "%";
+            document.getElementById('label_bar2').innerText = p2 + "%";
+            document.getElementById('label_bar3').innerText = p3 + "%";
         }
     </script>
 </body>

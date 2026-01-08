@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <title>Panel Rekapitulasi Suara</title>
     <link rel="stylesheet" href="admin.css">
+    <style>
+        /* Tambahan CSS untuk mengatur tampilan foto */
+        .paslon-photo {
+            width: 100%;
+            max-width: 150px; /* Ukuran maksimal foto */
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+        }
+    </style>
 </head>
 <body>
 
@@ -14,18 +31,27 @@
 
     <div class="stat-grid">
         <div class="stat-item">
+            <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon1-osis-smp-2026-2027.jpg" alt="Foto Paslon 1" class="paslon-photo">
             <h3 id="v1">0</h3>
             <p>Suara Paslon 01</p>
         </div>
+
         <div class="stat-item">
+            <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon2-osis-smp-2026-2027.jpg" alt="Foto Paslon 2" class="paslon-photo">
             <h3 id="v2">0</h3>
             <p>Suara Paslon 02</p>
         </div>
+
         <div class="stat-item">
+            <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon3-osis-smp-2026-2027.jpg" alt="Foto Paslon 3" class="paslon-photo">
             <h3 id="v3">0</h3>
             <p>Suara Paslon 03</p>
         </div>
+
         <div class="stat-item">
+            <div style="height: 150px; display: flex; align-items: center; justify-content: center;">
+                <h2 style="font-size: 3rem;">📊</h2>
+            </div>
             <h3 id="vtotal">0</h3>
             <p>Total Suara Masuk</p>
         </div>
@@ -47,7 +73,6 @@
     </div>
 
     <script>
-        // Mengambil data, default sekarang memiliki 3 paslon
         const dataSuara = JSON.parse(localStorage.getItem('rekap_suara')) || { "Paslon 01": 0, "Paslon 02": 0, "Paslon 03": 0 };
         
         const v1 = dataSuara["Paslon 01"] || 0;
@@ -55,13 +80,11 @@
         const v3 = dataSuara["Paslon 03"] || 0;
         const total = v1 + v2 + v3;
 
-        // Update angka di dashboard
         document.getElementById('v1').innerText = v1;
         document.getElementById('v2').innerText = v2;
         document.getElementById('v3').innerText = v3;
         document.getElementById('vtotal').innerText = total;
 
-        // Update visualisasi bar
         if (total > 0) {
             document.getElementById('bar1').style.width = (v1 / total * 100) + "%";
             document.getElementById('bar2').style.width = (v2 / total * 100) + "%";

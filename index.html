@@ -86,32 +86,32 @@
         
         <div class="grid-paslon">
             <div class="card-paslon">
-                <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon1-osis-smp-2026-2027.jpg" alt="Paslon 01">
+                <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon1-osis-smp-2026-2027.jpg" alt="paslonsmp 01">
                 <div class="card-content">
                     <small>NOMOR URUT</small>
                     <h1 style="margin:0">01</h1>
                     <h3 style="margin: 10px 0;">Wulan Tria Mita Raharjo</h3>
-                    <button class="btn btn-vote" onclick="konfirmasiPilihan('Paslon 01')">Pilih Nomor 01</button>
+                    <button class="btn btn-vote" onclick="konfirmasiPilihan('paslonsmp 01')">Pilih Nomor 01</button>
                 </div>
             </div>
 
 <div class="card-paslon">
-                <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon2-osis-smp-2026-2027.jpg" alt="Paslon 02">
+                <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon2-osis-smp-2026-2027.jpg" alt="paslonsmp 02">
                 <div class="card-content">
                     <small>NOMOR URUT</small>
                     <h1 style="margin:0">02</h1>
                     <h3 style="margin: 10px 0;">Agustian Ridwanto</h3>
-                    <button class="btn btn-vote" onclick="konfirmasiPilihan('Paslon 02')">Pilih Nomor 02</button>
+                    <button class="btn btn-vote" onclick="konfirmasiPilihan('paslonsmp 02')">Pilih Nomor 02</button>
                 </div>
             </div>
             
             <div class="card-paslon">
-                <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon3-osis-smp-2026-2027.jpg" alt="Paslon 03">
+                <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon3-osis-smp-2026-2027.jpg" alt="paslonsmp 03">
                 <div class="card-content">
                     <small>NOMOR URUT</small>
                     <h1 style="margin:0">03</h1>
                     <h3 style="margin: 10px 0;">Muhammad Nur Halil</h3>
-                    <button class="btn btn-vote" onclick="konfirmasiPilihan('Paslon 03')">Pilih Nomor 03</button>
+                    <button class="btn btn-vote" onclick="konfirmasiPilihan('paslonsmp 03')">Pilih Nomor 03</button>
                 </div>
             </div>
         </div>
@@ -292,7 +292,7 @@
         localStorage.setItem('voted_' + userAktif.nisn, "true");
         
         // Simpan rekap suara
-        let rekap = JSON.parse(localStorage.getItem('rekap_suara')) || { "Paslon 01": 0, "Paslon 02": 0, "Paslon 03": 0 };
+        let rekap = JSON.parse(localStorage.getItem('rekap_suara')) || { "paslonsmp 01": 0, "paslonsmp 02": 0, "paslonsmp 03": 0 };
         rekap[pilihan] += 1;
         localStorage.setItem('rekap_suara', JSON.stringify(rekap));
 

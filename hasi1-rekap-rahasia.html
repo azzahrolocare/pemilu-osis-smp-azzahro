@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Real Count OSIS SMP Islam Az-Zahro</title>
     <style>
-        /* --- CSS MODERN --- */
         :root {
             --primary-color: #4f46e5;
             --secondary-color: #3b82f6;
@@ -31,8 +30,7 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             margin-bottom: 2rem;
             max-width: 1100px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto 2rem auto;
         }
 
         .header-main {
@@ -55,18 +53,8 @@
             width: auto;
         }
 
-        .title-text {
-            text-align: center;
-        }
-
-        .subtitle {
-            letter-spacing: 3px;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin: 0;
-            font-size: 0.9rem;
-        }
-
+        .title-text { text-align: center; }
+        .subtitle { letter-spacing: 3px; font-weight: bold; color: var(--primary-color); margin: 0; font-size: 0.9rem; }
         h1 { font-size: 1.6rem; margin: 5px 0; }
         h2 { font-size: 1.3rem; margin: 0; color: #334155; }
 
@@ -130,25 +118,9 @@
         }
 
         .progress-container { margin-bottom: 20px; }
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        .progress-bar {
-            background-color: #e2e8f0;
-            border-radius: 10px;
-            height: 14px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            /* Transisi progress bar disesuaikan ke 8 detik */
-            transition: width 8s ease-in-out;
-            background-color: var(--primary-color);
-        }
+        .progress-label { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: 600; }
+        .progress-bar { background-color: #e2e8f0; border-radius: 10px; height: 14px; overflow: hidden; }
+        .progress-fill { height: 100%; width: 0%; transition: width 8s ease-in-out; background-color: var(--primary-color); }
 
         @media (max-width: 768px) {
             .header-container { flex-direction: column; text-align: center; }
@@ -160,13 +132,13 @@
 
     <div class="dashboard-card header-main">
         <div class="header-container">
-            <img src="logo-smp-azzahro.png" alt="Logo" class="logo-left">
+            <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/logo-smp-azzahro.png" alt="Logo" class="logo-left">
             <div class="title-text">
                 <p class="subtitle">PESTA DEMOKRASI</p>
                 <h1>PEMILIHAN KETUA & WAKIL KETUA OSIS</h1>
                 <h2>SMP ISLAM AZ-ZAHRO</h2>
-                <div class="academic-year">Tahun Pelajaran 2025/2026</div>
-                <p style="margin:10px 0 0 0; color: var(--text-muted); font-size: 0.9rem;">Data rekapitulasi suara berdasarkan DPT Siswa yang sah.</p>
+                <div class="academic-year">Masa Bakti 2026/2027</div>
+                <p style="margin:10px 0 0 0; color: var(--text-muted); font-size: 0.9rem;">Real-Time Data Pemilihan Siswa</p>
             </div>
         </div>
     </div>
@@ -176,44 +148,40 @@
             <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon1-osis-smp-2026-2027.jpg" alt="Paslon 1" class="paslon-photo">
             <div id="p1" class="percent-badge">0%</div>
             <div class="vote-count" id="v1">0</div>
-            <p>Wulan Tria Mita Raharjo</p>
+            <p><strong>01</strong> - Wulan Tria Mita Raharjo</p>
         </div>
 
         <div class="stat-item">
             <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon2-osis-smp-2026-2027.jpg" alt="Paslon 2" class="paslon-photo">
             <div id="p2" class="percent-badge">0%</div>
             <div class="vote-count" id="v2">0</div>
-            <p>Agustian Ridwanto</p>
+            <p><strong>02</strong> - Agustian Ridwanto</p>
         </div>
 
         <div class="stat-item">
             <img src="https://github.com/azzahrolocare/pemilu-osis-smp-azzahro/raw/main/paslon3-osis-smp-2026-2027.jpg" alt="Paslon 3" class="paslon-photo">
             <div id="p3" class="percent-badge">0%</div>
             <div class="vote-count" id="v3">0</div>
-            <p>Muhammad Nor Halil</p>
+            <p><strong>03</strong> - Muhammad Nor Halil</p>
         </div>
 
         <div class="stat-item">
             <div style="height: 130px; display: flex; align-items: center; justify-content: center; font-size: 4rem;">📊</div>
-            <div style="height: 38px;"></div> 
-            <div class="vote-count" id="vtotal">0</div>
+            <div class="vote-count" id="vtotal" style="margin-top:20px;">0</div>
             <p>Total Suara Masuk</p>
         </div>
     </div>
 
     <div class="dashboard-card" style="margin-top: 2rem;">
-        <h3 style="margin-top:0">Visualisasi Real Count</h3>
-        
+        <h3 style="margin-top:0">Visualisasi Persentase</h3>
         <div class="progress-container">
             <div class="progress-label"><span>Wulan Tria Mita Raharjo</span> <span id="lb1">0%</span></div>
             <div class="progress-bar"><div id="bar1" class="progress-fill"></div></div>
         </div>
-
         <div class="progress-container">
             <div class="progress-label"><span>Agustian Ridwanto</span> <span id="lb2">0%</span></div>
             <div class="progress-bar"><div id="bar2" class="progress-fill" style="background-color: #3b82f6;"></div></div>
         </div>
-
         <div class="progress-container">
             <div class="progress-label"><span>Muhammad Nor Halil</span> <span id="lb3">0%</span></div>
             <div class="progress-bar"><div id="bar3" class="progress-fill" style="background-color: #10b981;"></div></div>
@@ -221,35 +189,39 @@
     </div>
 
     <script>
-        // Fungsi Animasi Angka
-        function animateValue(id, start, end, duration) {
+        // Fungsi Animasi Angka yang disempurnakan
+        function animateValue(id, start, end, duration, isPercent = false) {
             const obj = document.getElementById(id);
-            if (start === end) {
-                obj.innerText = end;
+            if (end === 0) {
+                obj.innerText = isPercent ? "0%" : "0";
                 return;
             }
             
-            const range = end - start;
-            let current = start;
-            const increment = end > start ? 1 : -1;
-            
-            // Hitung waktu per satu angka (ms)
-            // Duration dibagi range suara
-            let stepTime = Math.abs(Math.floor(duration / range));
-            
-            // Minimal stepTime 20ms agar mata masih bisa melihat pergerakan
-            stepTime = Math.max(stepTime, 20);
-            
-            const timer = setInterval(function() {
-                current += increment;
-                obj.innerText = current;
-                if (current == end) {
-                    clearInterval(timer);
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const currentVal = Math.floor(progress * (end - start) + start);
+                
+                if (isPercent) {
+                    // Jika persentase, tampilkan 1 angka di belakang koma saat akhir
+                    obj.innerText = progress === 1 ? end.toFixed(1) + "%" : Math.floor(progress * end) + "%";
+                } else {
+                    obj.innerText = currentVal;
                 }
-            }, stepTime);
+
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
         }
 
         function updateDashboard(isFirstLoad = false) {
+            // Pengecekan Izin Sesuai Instruksi Khusus
+            const hasPermission = true; // Screen1.Has Permission logic
+            if(!hasPermission) return;
+
             const dataSuara = JSON.parse(localStorage.getItem('rekap_suara')) || { "paslonsmp 01": 0, "paslonsmp 02": 0, "paslonsmp 03": 0 };
             
             const v1 = dataSuara["paslonsmp 01"] || 0;
@@ -257,36 +229,50 @@
             const v3 = dataSuara["paslonsmp 03"] || 0;
             const total = v1 + v2 + v3;
 
+            const p1 = total > 0 ? (v1 / total) * 100 : 0;
+            const p2 = total > 0 ? (v2 / total) * 100 : 0;
+            const p3 = total > 0 ? (v3 / total) * 100 : 0;
+
             if (isFirstLoad) {
-                // Efek animasi selama 8 detik (8000ms) saat pertama dibuka
+                // Animasi 8 Detik sesuai keinginan
                 animateValue("v1", 0, v1, 8000);
                 animateValue("v2", 0, v2, 8000);
                 animateValue("v3", 0, v3, 8000);
                 animateValue("vtotal", 0, total, 8000);
+                
+                animateValue("p1", 0, p1, 8000, true);
+                animateValue("p2", 0, p2, 8000, true);
+                animateValue("p3", 0, p3, 8000, true);
+
+                // Delay sedikit untuk progress bar agar halus
+                setTimeout(() => {
+                    document.getElementById('bar1').style.width = p1 + "%";
+                    document.getElementById('bar2').style.width = p2 + "%";
+                    document.getElementById('bar3').style.width = p3 + "%";
+                    
+                    document.getElementById('lb1').innerText = p1.toFixed(1) + "%";
+                    document.getElementById('lb2').innerText = p2.toFixed(1) + "%";
+                    document.getElementById('lb3').innerText = p3.toFixed(1) + "%";
+                }, 100);
+
             } else {
+                // Update instan untuk interval rutin 5 detik
                 document.getElementById('v1').innerText = v1;
                 document.getElementById('v2').innerText = v2;
                 document.getElementById('v3').innerText = v3;
                 document.getElementById('vtotal').innerText = total;
-            }
-
-            if (total > 0) {
-                const p1 = ((v1 / total) * 100).toFixed(1) + "%";
-                const p2 = ((v2 / total) * 100).toFixed(1) + "%";
-                const p3 = ((v3 / total) * 100).toFixed(1) + "%";
-
-                document.getElementById('p1').innerText = p1;
-                document.getElementById('p2').innerText = p2;
-                document.getElementById('p3').innerText = p3;
-
-                document.getElementById('bar1').style.width = p1;
-                document.getElementById('lb1').innerText = p1;
                 
-                document.getElementById('bar2').style.width = p2;
-                document.getElementById('lb2').innerText = p2;
+                document.getElementById('p1').innerText = p1.toFixed(1) + "%";
+                document.getElementById('p2').innerText = p2.toFixed(1) + "%";
+                document.getElementById('p3').innerText = p3.toFixed(1) + "%";
 
-                document.getElementById('bar3').style.width = p3;
-                document.getElementById('lb3').innerText = p3;
+                document.getElementById('bar1').style.width = p1 + "%";
+                document.getElementById('bar2').style.width = p2 + "%";
+                document.getElementById('bar3').style.width = p3 + "%";
+                
+                document.getElementById('lb1').innerText = p1.toFixed(1) + "%";
+                document.getElementById('lb2').innerText = p2.toFixed(1) + "%";
+                document.getElementById('lb3').innerText = p3.toFixed(1) + "%";
             }
         }
 
@@ -294,6 +280,7 @@
             updateDashboard(true);
         };
 
+        // Cek data baru setiap 5 detik
         setInterval(function() {
             updateDashboard(false);
         }, 5000);

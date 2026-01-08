@@ -129,7 +129,6 @@
             margin-bottom: 10px;
         }
 
-        /* Progress Bar dengan transisi 4 detik agar sinkron */
         .progress-container { margin-bottom: 20px; }
         .progress-label {
             display: flex;
@@ -146,7 +145,8 @@
         .progress-fill {
             height: 100%;
             width: 0%;
-            transition: width 4s ease-out; /* Sinkron dengan durasi angka */
+            /* Transisi progress bar disesuaikan ke 8 detik */
+            transition: width 8s ease-in-out;
             background-color: var(--primary-color);
         }
 
@@ -221,7 +221,7 @@
     </div>
 
     <script>
-        // Fungsi Animasi Angka (Durasi 4 Detik)
+        // Fungsi Animasi Angka
         function animateValue(id, start, end, duration) {
             const obj = document.getElementById(id);
             if (start === end) {
@@ -230,20 +230,23 @@
             }
             
             const range = end - start;
-            let startTime = null;
-
-            function step(timestamp) {
-                if (!startTime) startTime = timestamp;
-                const progress = Math.min((timestamp - startTime) / duration, 1);
-                // Menggunakan Math.floor untuk angka bulat
-                obj.innerText = Math.floor(progress * range + start);
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                } else {
-                    obj.innerText = end; // Pastikan angka terakhir tepat
+            let current = start;
+            const increment = end > start ? 1 : -1;
+            
+            // Hitung waktu per satu angka (ms)
+            // Duration dibagi range suara
+            let stepTime = Math.abs(Math.floor(duration / range));
+            
+            // Minimal stepTime 20ms agar mata masih bisa melihat pergerakan
+            stepTime = Math.max(stepTime, 20);
+            
+            const timer = setInterval(function() {
+                current += increment;
+                obj.innerText = current;
+                if (current == end) {
+                    clearInterval(timer);
                 }
-            }
-            window.requestAnimationFrame(step);
+            }, stepTime);
         }
 
         function updateDashboard(isFirstLoad = false) {
@@ -255,11 +258,11 @@
             const total = v1 + v2 + v3;
 
             if (isFirstLoad) {
-                // Animasi berhitung selama 4000ms (4 detik)
-                animateValue("v1", 0, v1, 4000);
-                animateValue("v2", 0, v2, 4000);
-                animateValue("v3", 0, v3, 4000);
-                animateValue("vtotal", 0, total, 4000);
+                // Efek animasi selama 8 detik (8000ms) saat pertama dibuka
+                animateValue("v1", 0, v1, 8000);
+                animateValue("v2", 0, v2, 8000);
+                animateValue("v3", 0, v3, 8000);
+                animateValue("vtotal", 0, total, 8000);
             } else {
                 document.getElementById('v1').innerText = v1;
                 document.getElementById('v2').innerText = v2;

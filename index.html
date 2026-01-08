@@ -292,7 +292,7 @@
         localStorage.setItem('voted_' + userAktif.nisn, "true");
         
         // Simpan rekap suara
-        let rekap = JSON.parse(localStorage.getItem('rekap_suara')) || { "Paslon 01": 0, "Paslon 02": 0 };
+        let rekap = JSON.parse(localStorage.getItem('rekap_suara')) || { "Paslon 01": 0, "Paslon 02": 0, "Paslon 03": 0 };
         rekap[pilihan] += 1;
         localStorage.setItem('rekap_suara', JSON.stringify(rekap));
 
